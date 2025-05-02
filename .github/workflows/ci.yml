@@ -1,28 +1,70 @@
-name: CI Pipeline
+name: Automatic Build & Deploy to AKS
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  build-and-test:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set Up Go
-        uses: actions/setup-go@v4
+      - name: Login to Azure
+        uses: azure/login@v1
         with:
-          go-version: '1.21.6'
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Install Dependencies
-        run: go mod tidy
+      - name: Login to Azure Container Registry (ACR)
+        run: az acr login --name ${{ secrets.AZURE_CONTAINER_REGISTRY }}
 
-      - name: Run Tests
-        run: go test ./...
+      - name: Install Make
+        run: sudo apt update && sudo apt install make -y
+
+      - name: Build & Push Docker Image
+        run: make docker-build && make docker-push
+
+      - name: Set Up Kubernetes (kubectl)
+        uses: azure/setup-kubectl@v1
+        with:
+          version: 'latest'
+
+      - name: Get AKS Credentials
+        run: az aks get-credentials --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --name ${{ secrets.AZURE_AKS_CLUSTER }}
+
+      - name: Deploy to AKS
+        run: make deploy
+
+
+
+# name: CI Pipeline
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches:
+#       - main
+
+# jobs:
+#   build-and-test:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout Repository
+#         uses: actions/checkout@v3
+
+#       - name: Set Up Go
+#         uses: actions/setup-go@v4
+#         with:
+#           go-version: '1.21.6'
+
+#       - name: Install Dependencies
+#         run: go mod tidy
+
+#       - name: Run Tests
+#         run: go test ./...

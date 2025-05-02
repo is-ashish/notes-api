@@ -4,22 +4,27 @@ A simple notes API built with Go.
 
 ## Project Structure
 
-```bash
-   notes-api/
-   │── main.go          # Entry point for the application
-   │── go.mod           # Go module file
-   │── config/          # Configuration (DB setup, etc.)
-   │── controllers/     # Request handlers (Controllers)
-   │   │── note_controller.go
-   │── services/        # Business logic (Service layer)
-   │   │── note_service.go
-   │── models/          # Data structures (Models)
-   │   │── note.go
-   │── routes/          # Routing setup
-   │   │── routes.go
-   │── storage/         # Data persistence (DB interactions)
-   │   │── db.go
-   │── utils/           # Helper functions
+ ```bash
+    notes-api/
+    │── .github/workflows/    # CI/CD pipeline for application
+    │── config/               # Any app configs (e.g., env variables)
+    │── controllers/          # API request handlers
+    │   │── note_controller.go
+    │── services/             # Business logic layer
+    │   │── note_service.go
+    │── models/               # Data models (e.g., Notes struct)
+    │   │── note.go
+    │── routes/               # API routing definitions
+    │   │── routes.go
+    │── storage/              # Database interaction layer
+    │   │── db.go
+    │── utils/                # Helper functions
+    │── Dockerfile            # Docker configuration for app
+    │── Makefile              # Automates build, test, deploy tasks
+    │── go.mod                # Go module dependencies
+    │── main.go               # App entry point
+    │── README.md             # Documentation
+
 
 ## Getting Started
 
@@ -34,4 +39,8 @@ A simple notes API built with Go.
    ```bash
    git clone https://github.com/your-username/notes-api.git
    cd notes-api
+
+
 # Trigger Workflow
+
+# Every push to main triggers GitHub Actions ✅ Docker image is built and pushed to Azure Container Registry ✅ AKS is updated with the new version ✅ Scaling & management are easier using Kubernetes
