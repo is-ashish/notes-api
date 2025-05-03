@@ -3,7 +3,7 @@
 A simple notes API built with Go.
 
 ## Project Structure
-
+`
  ```bash
     notes-api/
     │── .github/workflows/    # CI/CD pipeline for application
@@ -41,6 +41,6 @@ A simple notes API built with Go.
    cd notes-api
 
 
-# Trigger Workflow
-
-# Every push to main triggers GitHub Actions ✅ Docker image is built and pushed to Azure Container Registry ✅ AKS is updated with the new version ✅ Scaling & management are easier using Kubernetes
+## Trigger Workflow
+# notes-api/ CI/CD → Builds & pushes Docker image to Azure Container Registry (ACR) ✅ 
+# notes-infra/ CI/CD → Deploys new Kubernetes configurations to Azure Kubernetes Service (AKS) ✅
