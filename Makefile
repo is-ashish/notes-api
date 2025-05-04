@@ -1,6 +1,6 @@
 # Set Variables
 APP_NAME=notes-api
-DOCKER_IMAGE=notesacr.azurecr.io/$(APP_NAME)
+DOCKER_IMAGE=notes.azurecr.io/$(APP_NAME)
 
 # Default Target
 all: build run
@@ -27,6 +27,7 @@ docker-build:
 	docker build -t $(DOCKER_IMAGE) .
 
 docker-push:
+	az acr login --name notes
 	docker push $(DOCKER_IMAGE)
 
 # Deploy to AKS
