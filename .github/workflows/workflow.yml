@@ -13,12 +13,21 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+    
+      - name: Debug Secrets
+        run: echo "CLIENT_ID=${{ secrets.CLIENT_ID }}, TENANT_ID=${{ secrets.TENANT_ID }}, SUBSCRIPTION_ID=${{ secrets.SUBSCRIPTION_ID }}"
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          TENANT_ID: ${{ secrets.TENANT_ID }}
+          SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+
       - name: Azure login
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.CLIENT_ID }}
           tenant-id: ${{ secrets.TENANT_ID }}
           subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+
 
       
       - name: Run Azure CLI Command
