@@ -7,6 +7,7 @@ all: build run
 
 # Build Go Project
 build:
+    @echo $(APP_NAME)
     go build -o $(APP_NAME)
 
 # Run Application
