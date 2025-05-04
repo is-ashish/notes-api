@@ -36,8 +36,8 @@ jobs:
       #   run: sudo apt update && sudo apt install docker -y
 
       - name: Build & Push Docker Image
-        run: make docker-build && make docker-push
-        working-directory: ./
+        run: make docker-build ./ && make docker-push ./
+        # working-directory: ./
 
       - name: Set Up Kubernetes (kubectl)
         uses: azure/setup-kubectl@v1
