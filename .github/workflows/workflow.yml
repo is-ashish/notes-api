@@ -13,14 +13,6 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    
-      # - name: Debug Secrets
-      #   run: echo "CLIENT_ID=${{ secrets.CLIENT_ID }}, TENANT_ID=${{ secrets.TENANT_ID }}, SUBSCRIPTION_ID=${{ secrets.SUBSCRIPTION_ID }}"
-      #   env:
-      #     CLIENT_ID: ${{ secrets.CLIENT_ID }}
-      #     TENANT_ID: ${{ secrets.TENANT_ID }}
-      #     SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-
       - name: Azure login
         uses: azure/login@v2
         with:
@@ -40,8 +32,12 @@ jobs:
       - name: Install Make
         run: sudo apt update && sudo apt install make -y
 
+      - name: Install Docker
+        run: sudo apt update && sudo apt install docker -y
+
       - name: Build & Push Docker Image
         run: make docker-build && make docker-push
+        working-directory: ./
 
       - name: Set Up Kubernetes (kubectl)
         uses: azure/setup-kubectl@v1
