@@ -7,32 +7,32 @@ all: build run
 
 # Build Go Project
 build:
-    @echo $(APP_NAME)
-    go build -o $(APP_NAME)
+	@echo $(APP_NAME)
+	go build -o $(APP_NAME)
 
 # Run Application
 run:
-    ./$(APP_NAME)
+	./$(APP_NAME)
 
 # Format Code
 fmt:
-    go fmt ./...
+	go fmt ./...
 
 # Run Tests
 test:
-    go test ./...
+	go test ./...
 
 # Build & Push Docker Image
 docker-build:
-    docker build -t $(DOCKER_IMAGE) .
+	docker build -t $(DOCKER_IMAGE) .
 
 docker-push:
-    docker push $(DOCKER_IMAGE)
+	docker push $(DOCKER_IMAGE)
 
 # Deploy to AKS
 deploy:
-    kubectl set image deployment/$(APP_NAME) $(APP_NAME)=$(DOCKER_IMAGE):latest
+	kubectl set image deployment/$(APP_NAME) $(APP_NAME)=$(DOCKER_IMAGE):latest
 
 # Clean Build Artifacts
 clean:
-    rm -f $(APP_NAME)
+	rm -f $(APP_NAME)
