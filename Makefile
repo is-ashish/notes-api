@@ -1,13 +1,15 @@
 # Set Variables
 APP_NAME=notes-api
-DOCKER_IMAGE=notes.azurecr.io/$(APP_NAME)
+ACR_NAME=notes
+ACR_URL=$(ACR_NAME).azurecr.io
+DOCKER_IMAGE=$(ACR_URL)/$(APP_NAME)
 
 # Default Target
 all: build run
 
 # Build Go Project
 build:
-	@echo $(APP_NAME)
+	@echo "Building $(APP_NAME)..."
 	go build -o $(APP_NAME)
 
 # Run Application
@@ -22,18 +24,22 @@ fmt:
 test:
 	go test ./...
 
-# Build & Push Docker Image
+# Build Docker Image
 docker-build:
-	docker build -t $(DOCKER_IMAGE) .
+	@echo "Building Docker image..."
+	docker build -t $(DOCKER_IMAGE):latest .
 
+# Push Docker Image to Azure Container Registry (ACR)
 docker-push:
-	az acr login --name notes
-	docker push $(DOCKER_IMAGE)
-
-# Deploy to AKS
-deploy:
-	kubectl set image deployment/$(APP_NAME) $(APP_NAME)=$(DOCKER_IMAGE):latest
+	@echo "Logging in to Azure Container Registry..."
+	az acr login --name $(ACR_NAME)
+    	@echo "Pushing Docker image to ACR..."
+    	docker push $(DOCKER_IMAGE):latest
+    	@echo "Tagging image with commit SHA..."
+    	docker tag $(DOCKER_IMAGE):latest $(DOCKER_IMAGE):$(shell git rev-parse HEAD)
+    	docker push $(DOCKER_IMAGE):$(shell git rev-parse HEAD)
 
 # Clean Build Artifacts
 clean:
-	rm -f $(APP_NAME)
+    	@echo "Cleaning build artifacts..."
+    	rm -f $(APP_NAME)
