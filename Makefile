@@ -32,7 +32,7 @@ docker-build:
 # Push Docker Image to Azure Container Registry (ACR)
 docker-push:
     @echo "Logging in to Azure Container Registry..."
-	az acr login --name $(ACR_NAME)
+    az acr login --name $(ACR_NAME)  # Correctly indented with a tab
     @echo "Pushing Docker image to ACR..."
     docker push $(DOCKER_IMAGE):latest
     @echo "Tagging image with commit SHA..."
