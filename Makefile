@@ -9,37 +9,37 @@ all: build run
 
 # Build Go Project
 build:
-@echo "Building $(APP_NAME)..."
-    	go build -o $(APP_NAME)
+    @echo "Building $(APP_NAME)..."
+    go build -o $(APP_NAME)
 
 # Run Application
 run:
-	    ./$(APP_NAME)
+    ./$(APP_NAME)
 
 # Format Code
 fmt:
-	    go fmt ./...
+    go fmt ./...
 
 # Run Tests
 test:
-	    go test ./...
+    go test ./...
 
 # Build Docker Image
 docker-build:
-@echo "Building Docker image..."
-	    docker build -t $(DOCKER_IMAGE):latest .
+    @echo "Building Docker image..."
+    docker build -t $(DOCKER_IMAGE):latest .
 
 # Push Docker Image to Azure Container Registry (ACR)
 docker-push:
-@echo "Logging in to Azure Container Registry..."
+    @echo "Logging in to Azure Container Registry..."
 	az acr login --name $(ACR_NAME)
-@echo "Pushing Docker image to ACR..."
-    	docker push $(DOCKER_IMAGE):latest
-@echo "Tagging image with commit SHA..."
-    	docker tag $(DOCKER_IMAGE):latest $(DOCKER_IMAGE):$(shell git rev-parse HEAD)
-    	docker push $(DOCKER_IMAGE):$(shell git rev-parse HEAD)
+    @echo "Pushing Docker image to ACR..."
+    docker push $(DOCKER_IMAGE):latest
+    @echo "Tagging image with commit SHA..."
+    docker tag $(DOCKER_IMAGE):latest $(DOCKER_IMAGE):$(shell git rev-parse HEAD)
+    docker push $(DOCKER_IMAGE):$(shell git rev-parse HEAD)
 
 # Clean Build Artifacts
 clean:
-@echo "Cleaning build artifacts..."
-    	rm -f $(APP_NAME)
+    @echo "Cleaning build artifacts..."
+    rm -f $(APP_NAME)
