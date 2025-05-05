@@ -9,7 +9,7 @@ all: build run
 
 # Build Go Project
 build:
-    	@echo "Building $(APP_NAME)..."
+@echo "Building $(APP_NAME)..."
     	go build -o $(APP_NAME)
 
 # Run Application
@@ -26,20 +26,20 @@ test:
 
 # Build Docker Image
 docker-build:
-    	@echo "Building Docker image..."
+@echo "Building Docker image..."
 	    docker build -t $(DOCKER_IMAGE):latest .
 
 # Push Docker Image to Azure Container Registry (ACR)
 docker-push:
-    	@echo "Logging in to Azure Container Registry..."
-	    az acr login --name $(ACR_NAME)
-    	@echo "Pushing Docker image to ACR..."
+@echo "Logging in to Azure Container Registry..."
+	az acr login --name $(ACR_NAME)
+@echo "Pushing Docker image to ACR..."
     	docker push $(DOCKER_IMAGE):latest
-    	@echo "Tagging image with commit SHA..."
+@echo "Tagging image with commit SHA..."
     	docker tag $(DOCKER_IMAGE):latest $(DOCKER_IMAGE):$(shell git rev-parse HEAD)
     	docker push $(DOCKER_IMAGE):$(shell git rev-parse HEAD)
 
 # Clean Build Artifacts
 clean:
-    	@echo "Cleaning build artifacts..."
+@echo "Cleaning build artifacts..."
     	rm -f $(APP_NAME)
