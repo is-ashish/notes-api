@@ -22,7 +22,7 @@ A simple notes API built with Go.
     │── Dockerfile            # Docker configuration for app
     │── Makefile              # Automates build, test, deploy tasks
     │── go.mod                # Go module dependencies
-    │── main.go               # App entry point
+    │── main.go               # App entry poin
     │── README.md             # Documentation
 
 
@@ -33,7 +33,7 @@ A simple notes API built with Go.
 - Go 1.20+ installed on your machine
 - A running instance of a database (e.g., PostgreSQL)
 
-### Installation
+### Installatio
 
 1. Clone the repository:
    ```bash

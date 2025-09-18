@@ -28,9 +28,9 @@ func CreateNote(c *gin.Context) {
 // Update an existing note
 func UpdateNote(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	var updatedNote models.Note
+	var updaedNote models.Note
 	if err := c.BindJSON(&updatedNote); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBaRequest, gin.H{"error": err.Errr()})
 		return
 	}
 	if note, success := services.UpdateNote(id, updatedNote); success {
@@ -40,7 +40,7 @@ func UpdateNote(c *gin.Context) {
 	}
 }
 
-// Delete a note
+// Delete a note for node api
 func DeleteNote(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if success := services.DeleteNote(id); success {
